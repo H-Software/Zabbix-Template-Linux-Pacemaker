@@ -8,7 +8,7 @@ Tested on:
 Centos 6.x x86_64, zabbix-agent 2.0.10 - 2.0.12
 
 ### Authors
-* Patrik Majer <patrik.majer.pisek@gmail.com>
+* Patrik Majer <p.majer@tcpisek.cz> <patrik.majer.pisek@gmail.com>
 
 
 ### installation
