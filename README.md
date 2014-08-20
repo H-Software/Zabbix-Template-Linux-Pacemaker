@@ -17,6 +17,8 @@ Centos 6.x x86_64, zabbix-agent 2.0.10 - 2.0.12
 
 * copy script "scripts/crm_mon_stats.sh" in /root/scripts (or modify agent conf)
 
+* copy script "scripts/check_pacemaker_actions" in /srv/sensu/checks/ (or install as nagios check)
+
 * import xml file into zabbix server as template
 
 

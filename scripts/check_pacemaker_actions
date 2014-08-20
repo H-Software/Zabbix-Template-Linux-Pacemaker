@@ -1,0 +1,39 @@
+#!/bin/bash
+#
+# title: check_pcmkactions - check for failed pacemaker actions
+# date created: Tue Jan 25 2011
+# last edit: Thu Jun 30 2011
+# author: Sascha Reimann
+# changelog: - crm_mon, awk & grep put into variables.
+
+# nagios returncodes:
+STATE_OK=0
+STATE_WARNING=1
+STATE_CRITICAL=2
+STATE_UNKNOWN=3
+
+crm_mon="/usr/sbin/crm_mon"
+awk="/usr/bin/awk"
+grep="/bin/grep"
+
+# check for failed actions and set $STATUS
+$crm_mon --one-shot | $grep --quiet "Failed"
+STATUS=$?
+
+# generate output:
+if [ ${STATUS} -eq 0 ]
+then
+DETAILS=$($crm_mon --one-shot | $awk '/Failed/ {f=1}f' | $grep --invert-match Failed)
+COUNT=$($crm_mon --one-shot | $awk '/Failed/ {f=1}f' | $grep --invert-match --count Failed)
+echo "CRITICAL: ${COUNT} failed action(s): ${DETAILS}"
+exit ${STATE_CRITICAL}
+elif [ ${STATUS} -eq 1 ]
+then
+echo "OK: no failed actions found"
+exit ${STATE_OK}
+else
+echo "UNKNOWN: returncode ${STATUS}"
+exit ${STATE_UNKNOWN}
+fi
+
+
